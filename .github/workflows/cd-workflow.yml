@@ -6,6 +6,9 @@ on:
   push:
     paths:
       - "**Dockerfile**"
+      
+permissions: read-all|write-all
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -50,18 +53,18 @@ jobs:
     name: Docker Build, Tag, Push
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v1
-    - name: Download built artifact
-      uses: actions/download-artifact@main
-      with:
-        name: webpack artifacts
-        path: public
-    - name: Build container image
-      uses: docker/build-push-action@v1
-      with:
-        username: ${{github.actor}}
-        password: ${{secrets.GITHUB_TOKEN}}
-        registry: docker.pkg.github.com
-        repository: llusardo/github-actions-for-packages/tic-tac-toe
-        tag_with_sha: true
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Download built artifact
+        uses: actions/download-artifact@main
+        with:
+          name: webpack artifacts
+          path: public
+      - name: Build container image
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+          registry: docker.pkg.github.com
+          repository: llusardo/github-actions-for-packages/tic-tac-toe
+          tag_with_sha: true
